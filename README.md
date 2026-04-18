@@ -1,1 +1,1 @@
-# studious-meme-ping-pong-game
+# Studious-meme-ping-pong-game
