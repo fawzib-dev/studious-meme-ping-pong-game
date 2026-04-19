@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pong Game - Advanced Edition</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Main Menu -->
+        <div id="mainMenu" class="menu-container">
+            <div class="menu-content">
+                <h1 class="game-title">🎮 PONG GAME</h1>
+                <p class="game-subtitle">Advanced Edition</p>
+                <div class="menu-buttons">
+                    <button id="playBtn" class="menu-button primary">Play Game</button>
+                    <button id="settingsBtn" class="menu-button">Settings</button>
+                    <button id="statsBtn" class="menu-button">Statistics</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Difficulty Selection Menu -->
+        <div id="difficultyMenu" class="menu-container hidden">
+            <div class="menu-content">
+                <h2>Select Difficulty</h2>
+                <div class="difficulty-grid">
+                    <button class="difficulty-button" data-difficulty="easy">
+                        <div class="difficulty-icon">🟢</div>
+                        <div class="difficulty-name">Easy</div>
+                        <div class="difficulty-desc">Slow AI, relaxed gameplay</div>
+                    </button>
+                    <button class="difficulty-button" data-difficulty="medium">
+                        <div class="difficulty-icon">🟡</div>
+                        <div class="difficulty-name">Medium</div>
+                        <div class="difficulty-desc">Balanced challenge</div>
+                    </button>
+                    <button class="difficulty-button" data-difficulty="hard">
+                        <div class="difficulty-icon">🔴</div>
+                        <div class="difficulty-name">Hard</div>
+                        <div class="difficulty-desc">Fast AI, competitive</div>
+                    </button>
+                    <button class="difficulty-button" data-difficulty="impossible">
+                        <div class="difficulty-icon">⚫</div>
+                        <div class="difficulty-name">Impossible</div>
+                        <div class="difficulty-desc">Perfect AI, hardcore</div>
+                    </button>
+                </div>
+                <button id="backToDifficulty" class="menu-button secondary">Back</button>
+            </div>
+        </div>
+
+        <!-- Settings Menu -->
+        <div id="settingsMenu" class="menu-container hidden">
+            <div class="menu-content settings-content">
+                <h2>Settings</h2>
+                <div class="settings-group">
+                    <label>Sound</label>
+                    <div class="toggle-switch">
+                        <input type="checkbox" id="soundToggle" checked>
+                        <span class="toggle-slider"></span>
+                    </div>
+                </div>
+                <div class="settings-group">
+                    <label>Background Music</label>
+                    <div class="toggle-switch">
+                        <input type="checkbox" id="musicToggle" checked>
+                        <span class="toggle-slider"></span>
+                    </div>
+                </div>
+                <div class="settings-group">
+                    <label>Paddle Speed</label>
+                    <input type="range" id="paddleSpeed" min="3" max="10" value="6">
+                    <span id="paddleSpeedValue">6</span>
+                </div>
+                <div class="settings-group">
+                    <label>Ball Speed</label>
+                    <input type="range" id="ballSpeed" min="2" max="8" value="5">
+                    <span id="ballSpeedValue">5</span>
+                </div>
+                <button id="backToSettings" class="menu-button secondary">Back</button>
+            </div>
+        </div>
+
+        <!-- Statistics Menu -->
+        <div id="statsMenu" class="menu-container hidden">
+            <div class="menu-content stats-content">
+                <h2>Your Statistics</h2>
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div class="stat-label">Total Games</div>
+                        <div class="stat-value" id="totalGames">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Win Rate</div>
+                        <div class="stat-value" id="winRate">0%</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Best Streak</div>
+                        <div class="stat-value" id="bestStreak">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Total Points</div>
+                        <div class="stat-value" id="totalPoints">0</div>
+                    </div>
+                </div>
+                <div class="streak-section">
+                    <h3>Current Streak: <span id="currentStreak">0</span> 🔥</h3>
+                    <div id="streakMessage" class="streak-message"></div>
+                </div>
+                <button id="resetStats" class="menu-button danger">Reset Statistics</button>
+                <button id="backToStats" class="menu-button secondary">Back</button>
+            </div>
+        </div>
+
+        <!-- Game Container -->
+        <div id="gameContainer" class="hidden">
+            <div class="game-header">
+                <div class="difficulty-display" id="difficultyDisplay">Difficulty: Easy</div>
+                <h2 class="game-title-small">PONG</h2>
+                <button id="pauseBtn" class="pause-button">⏸ Pause</button>
+            </div>
+
+            <canvas id="gameCanvas" width="800" height="400"></canvas>
+
+            <div class="game-info">
+                <div class="score-section">
+                    <div class="player-score">
+                        <div class="score-label">Player</div>
+                        <div class="score-number" id="playerScore">0</div>
+                    </div>
+                    <div class="divider">VS</div>
+                    <div class="ai-score">
+                        <div class="score-label">Computer</div>
+                        <div class="score-number" id="aiScore">0</div>
+                    </div>
+                </div>
+                <div class="motivation-box">
+                    <p id="motivationText">Let's go! You can do it! 💪</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Over Menu -->
+        <div id="gameOverMenu" class="menu-container hidden">
+            <div class="menu-content game-over-content">
+                <h2 id="gameOverTitle">Game Over!</h2>
+                <div class="game-over-stats">
+                    <p>Final Score: <span id="finalScore">0</span></p>
+                    <p>Streak: <span id="finalStreak">0</span></p>
+                    <p id="gameResult"></p>
+                </div>
+                <div class="game-over-buttons">
+                    <button id="playAgainBtn" class="menu-button primary">Play Again</button>
+                    <button id="mainMenuBtn" class="menu-button secondary">Main Menu</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pause Menu -->
+        <div id="pauseMenu" class="menu-container hidden">
+            <div class="menu-content pause-content">
+                <h2>Game Paused</h2>
+                <div class="pause-buttons">
+                    <button id="resumeBtn" class="menu-button primary">Resume</button>
+                    <button id="pauseSettingsBtn" class="menu-button">Settings</button>
+                    <button id="pauseMainMenuBtn" class="menu-button secondary">Main Menu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
